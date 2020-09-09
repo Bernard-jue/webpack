@@ -1820,7 +1820,7 @@ declare interface Configuration {
 	stats?: StatsValue;
 
 	/**
-	 * Environment to build for.
+	 * Environment to build for. An array of environments to build for all of them when possible.
 	 */
 	target?: Target;
 
@@ -2687,24 +2687,14 @@ declare interface Environment {
 	const?: boolean;
 
 	/**
-	 * The environment supports destructing ('{ a, b } = obj').
+	 * The environment supports destructuring ('{ a, b } = obj').
 	 */
-	destructing?: boolean;
+	destructuring?: boolean;
 
 	/**
 	 * The environment supports 'for of' iteration ('for (const x of array) { ... }').
 	 */
 	forOf?: boolean;
-
-	/**
-	 * The environment supports a global 'global' variable which points to the global context.
-	 */
-	global?: boolean;
-
-	/**
-	 * The environment supports a global 'globalThis' variable which points to the global context.
-	 */
-	globalThis?: boolean;
 
 	/**
 	 * The environment supports an async import() function to import EcmaScript modules.
@@ -3085,9 +3075,9 @@ declare interface ExternalsPresets {
 	node?: boolean;
 
 	/**
-	 * Treat node-webkit legacy nw.gui module as external and load it via require() when used.
+	 * Treat NW.js legacy nw.gui module as external and load it via require() when used.
 	 */
-	nodeWebkit?: boolean;
+	nwjs?: boolean;
 
 	/**
 	 * Treat references to 'http(s)://...' and 'std:...' as external and load them via import when used (Note that this changes execution order as externals are executed before any other code in the chunk).
@@ -7648,7 +7638,7 @@ declare abstract class RuntimeTemplate {
 	supportsConst(): boolean;
 	supportsArrowFunction(): boolean;
 	supportsForOf(): boolean;
-	supportsDestructing(): boolean;
+	supportsdestructuring(): boolean;
 	supportsBigIntLiteral(): boolean;
 	supportsAsyncImport(): boolean;
 	supportsEcmaScriptModuleSyntax(): boolean;
@@ -8899,16 +8889,7 @@ declare interface TagInfo {
 	data: any;
 	next: TagInfo;
 }
-type Target =
-	| "web"
-	| "webworker"
-	| "node"
-	| "async-node"
-	| "node-webkit"
-	| "electron-main"
-	| "electron-renderer"
-	| "electron-preload"
-	| ((compiler: Compiler) => void);
+type Target = string | false | [string, ...string[]];
 declare class Template {
 	constructor();
 	static getFunctionContent(fn: Function): string;
@@ -9424,7 +9405,7 @@ declare interface WebpackOptionsNormalized {
 	stats: StatsValue;
 
 	/**
-	 * Environment to build for.
+	 * Environment to build for. An array of environments to build for all of them when possible.
 	 */
 	target?: Target;
 
