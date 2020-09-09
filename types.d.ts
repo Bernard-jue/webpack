@@ -2666,6 +2666,56 @@ declare abstract class Entrypoint extends ChunkGroup {
 	 */
 	getEntrypointChunk(): Chunk;
 }
+
+/**
+ * The abilities of the environment where the webpack generated code should run.
+ */
+declare interface Environment {
+	/**
+	 * The environment supports arrow functions ('() => { ... }').
+	 */
+	arrowFunction?: boolean;
+
+	/**
+	 * The environment supports BigInt as literal (123n).
+	 */
+	bigIntLiteral?: boolean;
+
+	/**
+	 * The environment supports const and let for variable declarations.
+	 */
+	const?: boolean;
+
+	/**
+	 * The environment supports destructing ('{ a, b } = obj').
+	 */
+	destructing?: boolean;
+
+	/**
+	 * The environment supports 'for of' iteration ('for (const x of array) { ... }').
+	 */
+	forOf?: boolean;
+
+	/**
+	 * The environment supports a global 'global' variable which points to the global context.
+	 */
+	global?: boolean;
+
+	/**
+	 * The environment supports a global 'globalThis' variable which points to the global context.
+	 */
+	globalThis?: boolean;
+
+	/**
+	 * The environment supports an async import() function to import EcmaScript modules.
+	 */
+	import?: boolean;
+
+	/**
+	 * The environment supports EcmaScript Module syntax to import EcmaScript modules (import ... from '...').
+	 */
+	module?: boolean;
+}
 declare class EnvironmentPlugin {
 	constructor(...keys: any[]);
 	keys: any[];
@@ -5773,11 +5823,6 @@ declare interface Output {
 	devtoolNamespace?: string;
 
 	/**
-	 * The maximum EcmaScript version of the webpack generated code (doesn't include input source code from modules).
-	 */
-	ecmaVersion?: number;
-
-	/**
 	 * List of chunk loading types enabled for use by entry points.
 	 */
 	enabledChunkLoadingTypes?: string[];
@@ -5791,6 +5836,11 @@ declare interface Output {
 	 * List of wasm loading types enabled for use by entry points.
 	 */
 	enabledWasmLoadingTypes?: string[];
+
+	/**
+	 * The abilities of the environment where the webpack generated code should run.
+	 */
+	environment?: Environment;
 
 	/**
 	 * Specifies the name of each output file on disk. You must **not** specify an absolute path here! The `output.path` option determines the location on disk the files are written to, filename is used solely for naming the individual files.
@@ -6017,11 +6067,6 @@ declare interface OutputNormalized {
 	devtoolNamespace?: string;
 
 	/**
-	 * The maximum EcmaScript version of the webpack generated code (doesn't include input source code from modules).
-	 */
-	ecmaVersion?: number;
-
-	/**
 	 * List of chunk loading types enabled for use by entry points.
 	 */
 	enabledChunkLoadingTypes?: string[];
@@ -6035,6 +6080,11 @@ declare interface OutputNormalized {
 	 * List of wasm loading types enabled for use by entry points.
 	 */
 	enabledWasmLoadingTypes?: string[];
+
+	/**
+	 * The abilities of the environment where the webpack generated code should run.
+	 */
+	environment?: Environment;
 
 	/**
 	 * Specifies the name of each output file on disk. You must **not** specify an absolute path here! The `output.path` option determines the location on disk the files are written to, filename is used solely for naming the individual files.
@@ -7599,6 +7649,9 @@ declare abstract class RuntimeTemplate {
 	supportsArrowFunction(): boolean;
 	supportsForOf(): boolean;
 	supportsDestructing(): boolean;
+	supportsBigIntLiteral(): boolean;
+	supportsAsyncImport(): boolean;
+	supportsEcmaScriptModuleSyntax(): boolean;
 	returningFunction(returnValue?: any, args?: string): string;
 	basicFunction(args?: any, body?: any): string;
 	destructureArray(items?: any, value?: any): string;

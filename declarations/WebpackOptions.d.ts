@@ -391,10 +391,6 @@ export type DevtoolModuleFilenameTemplate = string | Function;
  */
 export type DevtoolNamespace = string;
 /**
- * The maximum EcmaScript version of the webpack generated code (doesn't include input source code from modules).
- */
-export type EcmaVersion = 2009 | number;
-/**
  * List of chunk loading types enabled for use by entry points.
  */
 export type EnabledChunkLoadingTypes = ChunkLoadingType[];
@@ -1699,10 +1695,6 @@ export interface Output {
 	 */
 	devtoolNamespace?: DevtoolNamespace;
 	/**
-	 * The maximum EcmaScript version of the webpack generated code (doesn't include input source code from modules).
-	 */
-	ecmaVersion?: EcmaVersion;
-	/**
 	 * List of chunk loading types enabled for use by entry points.
 	 */
 	enabledChunkLoadingTypes?: EnabledChunkLoadingTypes;
@@ -1714,6 +1706,10 @@ export interface Output {
 	 * List of wasm loading types enabled for use by entry points.
 	 */
 	enabledWasmLoadingTypes?: EnabledWasmLoadingTypes;
+	/**
+	 * The abilities of the environment where the webpack generated code should run.
+	 */
+	environment?: Environment;
 	/**
 	 * Specifies the name of each output file on disk. You must **not** specify an absolute path here! The `output.path` option determines the location on disk the files are written to, filename is used solely for naming the individual files.
 	 */
@@ -1826,6 +1822,47 @@ export interface Output {
 	 * The method of loading WebAssembly Modules (methods included by default are 'fetch' (web/WebWorker), 'async-node' (node.js), but others might be added by plugins).
 	 */
 	workerWasmLoading?: WasmLoading;
+}
+/**
+ * The abilities of the environment where the webpack generated code should run.
+ */
+export interface Environment {
+	/**
+	 * The environment supports arrow functions ('() => { ... }').
+	 */
+	arrowFunction?: boolean;
+	/**
+	 * The environment supports BigInt as literal (123n).
+	 */
+	bigIntLiteral?: boolean;
+	/**
+	 * The environment supports const and let for variable declarations.
+	 */
+	const?: boolean;
+	/**
+	 * The environment supports destructing ('{ a, b } = obj').
+	 */
+	destructing?: boolean;
+	/**
+	 * The environment supports 'for of' iteration ('for (const x of array) { ... }').
+	 */
+	forOf?: boolean;
+	/**
+	 * The environment supports a global 'global' variable which points to the global context.
+	 */
+	global?: boolean;
+	/**
+	 * The environment supports a global 'globalThis' variable which points to the global context.
+	 */
+	globalThis?: boolean;
+	/**
+	 * The environment supports an async import() function to import EcmaScript modules.
+	 */
+	import?: boolean;
+	/**
+	 * The environment supports EcmaScript Module syntax to import EcmaScript modules (import ... from '...').
+	 */
+	module?: boolean;
 }
 /**
  * Configuration object for web performance recommendations.
@@ -2333,10 +2370,6 @@ export interface OutputNormalized {
 	 */
 	devtoolNamespace?: DevtoolNamespace;
 	/**
-	 * The maximum EcmaScript version of the webpack generated code (doesn't include input source code from modules).
-	 */
-	ecmaVersion?: EcmaVersion;
-	/**
 	 * List of chunk loading types enabled for use by entry points.
 	 */
 	enabledChunkLoadingTypes?: EnabledChunkLoadingTypes;
@@ -2348,6 +2381,10 @@ export interface OutputNormalized {
 	 * List of wasm loading types enabled for use by entry points.
 	 */
 	enabledWasmLoadingTypes?: EnabledWasmLoadingTypes;
+	/**
+	 * The abilities of the environment where the webpack generated code should run.
+	 */
+	environment?: Environment;
 	/**
 	 * Specifies the name of each output file on disk. You must **not** specify an absolute path here! The `output.path` option determines the location on disk the files are written to, filename is used solely for naming the individual files.
 	 */
